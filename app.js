@@ -8,8 +8,13 @@ var expresshbs = require('express-handlebars');
 var mongoose = require("mongoose");
 var session = require('express-session');
 
+var flash = require('connect-flash');
+var passport = require('passport');
+var validator = require('express-validator');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
+require('./config/passport');
 
 var app = express();
 
@@ -33,6 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(session({
   secret: 'carrentalsession',
   resave: false,
@@ -40,7 +46,14 @@ app.use(session({
   cookie: { secure: false }
 }));
 
+
+app.use(passport.initialize());
+app.use(passport.session());
+//app.use(validator());
+app.use(flash());
+
 app.use((req, res, next) => {
+  res.locals.login = req.isAuthenticated(); 
   res.locals.session = req.session;
   next();
 });
