@@ -1,0 +1,39 @@
+<div class="row centered mt-4">
+    <div class="col-md-7 col-md-offset-1 mx-auto">
+        <center>
+        <table class="table table-hover table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="pl-5 pr-5">License Number</th>
+                    <th scope="col"class="pl-5 pr-5">Car Model</th>
+                    <th scope="col" class="pl-5 pr-3">Base Price</th>
+                    <th scope="col" class="pl-2 pr-3">Hourly rate</th>
+                     <th scope="col" class="pl-2 pr-2">Deposit</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <th scope="row" class="pl-5 pr-5">{{this.carlicensenumber}}</th>
+                     <th scope="row"class="pl-5 pr-5">{{this.manufacturer}} {{this.model}}</th>
+                    {{!-- <td class="pl-5 pr-2">{{this.model}}</td> --}}
+                    <td class="pl-5 pr-3">{{this.baseprice}}</td>
+                    <td class="pl-2 pr-3">{{this.pph}}</td>
+                    <td class="pl-2 pr-2"> {{this.security}}</td>
+                    <td>
+                        <form method="get" action="/cars/bookings/{{this._id}}">
+                        <button type="submit" class="btn btn-success" >Booked By: </button>
+                        </form>
+                    </td>
+                    {{!-- --}}
+                    <!-- Modal -->
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </center>
+    </div>
+</div>

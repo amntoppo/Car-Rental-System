@@ -1,0 +1,32 @@
+<div class="row centered mt-4">
+  <div class="col-md-4 col-md-offset-4 mx-auto">
+    <h1>Enter car details</h1>
+    <form method="post" action="/create_car">
+    <div class="form-group">
+      <label for="inputmobile">Car License Number</label>
+      <input type="text" class="form-control" id="car_license_number" name="car_license_number" aria-describedby="car_license_numberhelp" placeholder="Enter mobile number">
+    </div>
+    <div class="form-group">
+      <label for="inputmanufacturere">Manufacturer</label>
+      <input type="text" id ="manufacturer" name ="manufacturer" class="form-control" placeholder="Enter manufacturere name">
+    </div>
+    <div class="form-group">
+      <label for="inputmobile">Model</label>
+      <input type="text" class="form-control" id="model" name="model" aria-describedby="modelhelp" placeholder="Enter model name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Base price</label>
+      <input type="number" id ="base_price" name ="base_price" class="form-control" placeholder="Enter base price">
+    </div>
+    <div class="form-group">
+      <label for="inputmobile">PPH</label>
+      <input type="number" class="form-control" id="pph" name="pph" aria-describedby="pphhelp" placeholder="Enter PPH">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Security deposit</label>
+      <input type="number" id ="security" name ="security" class="form-control" placeholder="Enter security deposit">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  </div>
+</div>
