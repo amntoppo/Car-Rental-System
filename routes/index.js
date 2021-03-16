@@ -3,11 +3,16 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Car = require('../models/car');
+var Booking = require('../models/bookings');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
+  var cars = Car.find((err, data) => {
+    res.render('index', {data: data});
+  }).lean();
 });
+
 router.get('/cars', (req, res, next) => {
   res.render('car/new_car');
 });
@@ -18,8 +23,30 @@ router.get('/cars/list', (req, res, next) => {
   }).lean();
   
 });
-router.get('/cars/booking', (req, res, next) => {
+// router.get('/cars/book/:id', (req, res, next) => {
+//   var id = req.params.id;
+    
+// });
+
+router.get('/cars/book/:id', (req, res, next) => {
+  var id = req.params.id;
   
+  var booking = new Booking({
+    carid: id,
+    userid: req.user._id,
+    from: Date.now(),
+    to: Date.now(),
+    totalprice: 1000
+  });
+  booking.save((err, output) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      console.log("Car created");
+      res.redirect('/');
+    }
+  })
 });
 
 router.post('/create_car', (req, res, next) => {
