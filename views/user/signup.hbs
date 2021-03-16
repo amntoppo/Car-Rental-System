@@ -1,0 +1,31 @@
+<div class="row centered mt-4">
+  <div class="col-md-4 col-md-offset-4 mx-auto">
+    <h1>Signup</h1>
+    {{#if hasError}}
+    <div class="alert alert-danger">``
+        {{#each messages}}
+        <p>{{this}}</p>
+        {{/each}}
+      </div>
+    {{/if}}
+    <form method="post" action="/user/signup">
+    <div class="form-group">
+      <label for="signupMobileNumber">Email address</label>
+      <input type="number" class="form-control" id="signupMobileNumber" name="signupMobileNumber" aria-describedby="emailHelp" placeholder="Enter Mobile number">
+      <small id="signupMobileNumberhelp" class="form-text text-muted">We'll never share your number with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="signuppassword">Password</label>
+      <input type="password" id ="password" name ="password" class="form-control" placeholder="Password">
+    </div>
+    <input type="hidden" name="_csrf" value="{{csurfToken}}">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input">
+        Check me out
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  </div>
+    </div>
