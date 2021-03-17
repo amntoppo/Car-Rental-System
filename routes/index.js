@@ -4,18 +4,60 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Car = require('../models/car');
 var Booking = require('../models/bookings');
+//const bookings = require('../models/bookings');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });
   var cars = Car.find((err, data) => {
-    res.render('index', {data: data});
+    if(data.currentBooking && data.currentBooking > toTimestamp(new Date())) {
+      data.available = false;
+      data.save((error, output) => {
+        res.render('index', {data: data});
+      });
+    }
+    else {
+      if(data.available == false) {
+        data.available = true;
+        dava.save((error, output) => {
+          res.render('index', {data: data});
+        });
+      }
+      else {
+        res.render('index', {data: data});
+      }
+    }
+    // if(data.currentBooking > new Date()) {
+    //   data.available = false;
+    //   data.save((error, output) => {
+
+    //   })
+    // }
+    // else {
+    //   data.available = true;
+    //   data.save((error, outputt) => {
+    //     console.log(error);
+    //   });
+      
+    // }
+    
+    
+    
   }).lean();
 });
 
 router.get('/cars', (req, res, next) => {
   res.render('car/new_car');
 });
+router.get("/bookingdetails/:id", (req, res, next) => {
+  var id = req.params.id;
+  Car.findById(id, (err, data) => {
+    //todo
+  })
+  Booking.find((err, data) => {
+
+  })
+})
 
 router.get('/cars/list', (req, res, next) => {
   var cars = Car.find((err, data) => {
@@ -39,13 +81,49 @@ router.post('/cars/book/:id', (req, res, next) => {
     userid: req.user._id,
     from: spliteddatetime[0],
     to: spliteddatetime[1],
-    totalprice: 1000
+    totalprice: 1000,
   });
   booking.save((err, output) => {
     if(err) {
       console.log(err);
     }
     else {
+      // Car.findByIdAndUpdate(id, ({
+      //   available: false
+      // }, {
+      //   curentBooking: spliteddatetime[1]
+      // }));
+      // var update = await Car.findByIdAndUpdate(id, {
+      //   available: false
+      // })
+      console.log("prev: + " + toTimestamp(spliteddatetime[1]));
+      console.log("current:" + toTimestamp(new Date()));
+      if(toTimestamp(spliteddatetime[1]) > toTimestamp(new Date())) {
+        Car.findById(id,(erro, doc) => {
+          doc.available = false;
+          doc.currentBooking = toTimestamp(spliteddatetime[1]);
+          console.log(toTimestamp(spliteddatetime[1]));
+          doc.save();
+        })
+      }
+      else {
+        Car.findById(id, (erro, doc) => {
+          doc.available = true;
+          doc.currentBooking = toTimestamp(spliteddatetime[1]);
+          console.log(toTimestamp(spliteddatetime[1]));
+          doc.save();
+        })
+      }
+      // Car.findById(id, (err, doc) => {
+      //   doc.available = false;
+      //   doc.currentBooking = spliteddatetime[1];
+      //   if(doc.currentBooking > new Date()) {
+      //     doc.available 
+      //   }
+      //   doc.save((err, output) => {
+      //     console.log("available");
+      //   });
+      // })
       console.log("Car created");
       res.redirect('/');
     }
@@ -72,7 +150,7 @@ router.post('/create_car', (req, res, next) => {
     }
     else {
       console.log("Car created");
-      res.redirect('/cars/list');
+      res.redirect('/');
     }
   })
 });
