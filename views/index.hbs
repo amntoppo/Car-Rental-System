@@ -9,6 +9,7 @@
                     <th scope="col" class="pl-5 pr-3">Base Price</th>
                     <th scope="col" class="pl-2 pr-3">Hourly rate</th>
                      <th scope="col" class="pl-2 pr-2">Deposit</th>
+                     
 
 
                 </tr>
@@ -23,12 +24,82 @@
                     <td class="pl-2 pr-3">{{this.pph}}</td>
                     <td class="pl-2 pr-2"> {{this.security}}</td>
                     <td>
-                        <form method="get" action="/cars/book/{{this._id}}">
-                        <button type="submit" class="btn btn-success" >Book </button>
-                        </form>
+                        {{!-- <form method="get" action="/cars/book/{{this._id}}"> --}}
+                        <button type="submit" class="btn btn-success" data-toggle="modal"
+                            data-target="#{{@index}}Modal">Book </button>
+                        {{!-- <td><button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#{{@index}}Modal">Orders</button></td>
+                    <td> --}}
+                        {{!-- </form> --}}
                     </td>
                     {{!-- --}}
                     <!-- Modal -->
+<!-- Modal -->
+   <div class="modal fade" id="{{@index}}Modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Datepicker</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+            <input type="text" class="form-control" data-toggle="datepicker" name="datetimes">
+            {{!-- <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" />
+                 {{!-- <span class="input-group-addon"> --}}
+                        <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+            </div> --}}
+            {{!-- <div class='input-group date' id='datetimepicker1'>
+            <input type="text" name="datetimes" />
+            </div> --}}
+            <script>
+$(function() {
+  $('[data-toggle="datepicker"]').daterangepicker({
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale: {
+      format: 'M/DD hh:mm A'
+    }
+  });
+});
+</script>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+                    {{!-- <div class="modal fade" id="{{@index}}Modal" tabindex="-1" role="dialog"
+                        aria-labelledby="orderLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="orderLabel">Select Time</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control" data-toggle="datepicker">
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="get" action="/cars/book/{{this._id}}"></form>
+                                    <button type="button" class="btn btn-primary">Book</button>
+                                   
+                                    </form>
+                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    {{!-- <button type="button" class="btn btn-primary">Order</button> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
 
                 </tr>
                 {{/each}}
