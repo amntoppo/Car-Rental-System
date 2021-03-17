@@ -45,30 +45,12 @@
             </button>
           </div>
           <div class="modal-body" style="height: 1000px;">
-            <input type="text" class="form-control" data-toggle="datepicker" name="datetimes">
-            {{!-- <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" />
-                 {{!-- <span class="input-group-addon"> --}}
-                        <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-            </div> --}}
-            {{!-- <div class='input-group date' id='datetimepicker1'>
-            <input type="text" name="datetimes" />
-            </div> --}}
-            <script>
-$(function() {
-  $('[data-toggle="datepicker"]').daterangepicker({
-    timePicker: true,
-    startDate: moment().startOf('hour'),
-    endDate: moment().startOf('hour').add(32, 'hour'),
-    locale: {
-      format: 'M/DD hh:mm A'
-    }
-  });
-});
-</script>
+              <form method="post" action="/cars/book/{{this._id}}">
+                    <input type="text" class="form-control"name="datetimes" id="datetimes">
+                    <button type="submit" class="btn btn-success">Book </button>
+                </form>
             
-          </div>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>

@@ -28,14 +28,17 @@ router.get('/cars/list', (req, res, next) => {
     
 // });
 
-router.get('/cars/book/:id', (req, res, next) => {
+router.post('/cars/book/:id', (req, res, next) => {
   var id = req.params.id;
-  
+  var datetime = req.body.datetimes;
+  var spliteddatetime = datetime.split(" - ")
+  //console.log(datetime);
+  console.log(toTimestamp(spliteddatetime[0]));
   var booking = new Booking({
     carid: id,
     userid: req.user._id,
-    from: Date.now(),
-    to: Date.now(),
+    from: spliteddatetime[0],
+    to: spliteddatetime[1],
     totalprice: 1000
   });
   booking.save((err, output) => {
@@ -48,6 +51,11 @@ router.get('/cars/book/:id', (req, res, next) => {
     }
   })
 });
+
+  function toTimestamp(strDate){
+    var datum = Date.parse(strDate);
+    return datum/1000;
+   }
 
 router.post('/create_car', (req, res, next) => {
   var newCar = new Car({
