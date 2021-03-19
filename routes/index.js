@@ -29,6 +29,8 @@ router.post('/bookings/:id', (req, res, next) => {
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
   console.log(doc);
   res.render('userbookings', {data: doc})
+}).catch(err => {
+  console.log(err);
 })
 })
 
@@ -49,6 +51,8 @@ Booking.find().or([
 .exec()
 .then(data => {
   res.render('car/search', {data: data})
+}).catch(err => {
+  console.log(err);
 })
 })
 
