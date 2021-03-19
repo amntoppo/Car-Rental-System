@@ -6,15 +6,13 @@ var Car = require('../models/car');
 var Booking = require('../models/bookings');
 const user = require('../models/user');
 const { countDocuments } = require('../models/car');
-//const bookings = require('../models/bookings');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  //res.render('index', { title: 'Express' });
-  //console.log(req.user.mobile);
+
   var cars = Car.find((err, data) => {
     
-    res.render('index', {data: data})
+    res.render('index', {data: data, isLogin: req.isAuthenticated()})
   }).lean();
 });
 
@@ -41,14 +39,6 @@ router.post('/searchcars', (req, res, next) => {
   var searchdatetime = req.body.searchdatetimes;
   var spliteddatetime = searchdatetime.split(" - ")
   
-// Booking.find({'from': {$gte: spliteddatetime[0]}})
-// .populate('carid')
-// .lean(true)
-// .exec()
-// .then(data => {
-//   console.log(data);
-//   res.render('car/search', {data: data});
-// })
 
 Booking.find().or([
   {$and: [{'from': {$gte: spliteddatetime[0]}}, {'to': {$gte: spliteddatetime[1]}}] },
@@ -121,15 +111,21 @@ router.post('/cars/book/:id', (req, res, next) => {
         console.log("current:" + toTimestamp(new Date()));
         
         console.log("Car created");
-        res.redirect('/');
+        //res.redirect('/');
+        res.render('car/bookingconfirm', {manufacturer: doc.manufacturer, model: doc.model, totalprice: totalprice, from: spliteddatetime[0], to:spliteddatetime[1]});
+        
       }
     })
-    doc.save();
+  })
+});
+router.get('/bookingconfirm/:id', (req, res, next) => {
+  var id = req.params.id;
+  Booking.findById(id, (err, data) => {
+    res.render('')
   })
 
+})
 
-  
-});
 
 function diff_hours(dt2, dt1) 
  {

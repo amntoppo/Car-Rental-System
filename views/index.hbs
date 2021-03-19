@@ -29,14 +29,17 @@
                     <td class="pl-2 pr-2"> {{this.security}}</td>
                     
                         <td>
+                        
                         <button type="submit" class="btn btn-success" data-toggle="modal"
                             data-target="#{{@index}}Modal">Book </button>
-                        
+                       
                     </td>
                     
+                
                     <form method="get" action="/bookingdetails/{{this._id}}">
                     <td class="pl-2 pr-1"> <button type="submit" class="btn">-></button></td>
                     </form>
+                    {
                     {{!-- --}}
                     <!-- Modal -->
 <!-- Modal -->

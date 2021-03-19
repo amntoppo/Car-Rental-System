@@ -7,6 +7,7 @@ var logger = require('morgan');
 var expresshbs = require('express-handlebars');
 var mongoose = require("mongoose");
 var session = require('express-session');
+var mongoStore = require('connect-mongo')(session);
 
 var flash = require('connect-flash');
 var passport = require('passport');
@@ -43,7 +44,8 @@ app.use(session({
   secret: 'carrentalsession',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }
+  store: new mongoStore({mongooseConnection: db}),
+    cookie: {maxAge: 180 * 60 * 1000}
 }));
 
 

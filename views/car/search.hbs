@@ -31,17 +31,12 @@
                     <td class="pl-5 pr-3">{{carid.baseprice}}</td>
                     <td class="pl-2 pr-3">{{carid.pph}}</td>
                     <td class="pl-2 pr-2"> {{carid.security}}</td>
-                    {{#if this.available}}
+
                         <td>
                         <button type="submit" class="btn btn-success" data-toggle="modal"
                             data-target="#{{@index}}Modal">Book </button>
                         
                     </td>
-                    {{else}}
-                    <td>
-                        <button type="submit" class="btn btn-alert">Unavailable </button>
-                    </td>
-                    {{/if}}
                     <form method="get" action="/bookingdetails/{{carid._id}}">
                     <td class="pl-2 pr-1"> <button type="submit" class="btn">-></button></td>
                     </form>
