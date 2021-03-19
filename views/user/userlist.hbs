@@ -1,0 +1,44 @@
+<div class="row centered mt-4">
+    <div class="col-md-7 col-md-offset-1 mx-auto">
+        <center>
+        <table class="table table-hover table-striped table-dark table-hover">
+            List of users
+             
+            <thead>
+                <tr>
+                    {{!-- <th scope="col" class="pl-5 pr-5">License Number</th> --}}
+                    <th scope="col"class="pl-5 pr-5">Number</th>
+                    <th scope="col" class="pl-5 pr-3">Bookings</th>
+                     
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                {{this}}
+                <tr>
+                    
+                     <th scope="row"class="pl-5 pr-5">{{this.mobile}} </th>
+                    <td>
+                        <form method="post" action="/bookings/{{this._id}}">
+                
+                    <button type="submit" class="btn btn-success">-> </button>
+                </form>
+                        
+                    </td>
+                    
+                    {{!-- --}}
+                    <!-- Modal -->
+<!-- Modal -->
+  
+  </div>
+                   
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </center>
+    </div>
+</div>
