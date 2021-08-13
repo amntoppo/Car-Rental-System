@@ -21,7 +21,7 @@ var app = express();
 
 
 //mongoose setup
-mongoose.connect('mongodb+srv://dbUser:dbuserpassword@cluster0.4vsa0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost:27017/car_rental', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
