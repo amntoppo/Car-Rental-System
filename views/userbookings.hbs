@@ -2,11 +2,7 @@
     <div class="col-md-7 col-md-offset-1 mx-auto">
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
-            Search for Ride
-             <form method="post" action="/searchcars">
-            <input type="text" class="form-control"name="searchdatetimes" id="searchdatetimes">
-            <button type="submit" class ="btn">Search</button>
-            </form>
+            
             <thead>
                 <tr>
                     {{!-- <th scope="col" class="pl-5 pr-5">License Number</th> --}}
@@ -21,7 +17,7 @@
             </thead>
             <tbody>
                 {{#each data}}
-                {{this}}
+                
                 <tr>
                     
                      <th scope="row"class="pl-5 pr-5">{{carid.manufacturer}} {{carid.model}}</th>

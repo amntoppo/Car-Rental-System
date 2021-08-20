@@ -17,9 +17,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/users', (req, res, next) => {
-  user.find((err, data) => {
-    res.render('user/userlist', {data: data});
-  }).lean();
+  res.render('usersecurity');
+  
   
 })
 
@@ -53,7 +52,7 @@ Booking.find().or([
 })
 
 router.get('/cars', (req, res, next) => {
-  res.render('car/new_car');
+  res.render('security');
 });
 
 
@@ -159,5 +158,38 @@ router.post('/create_car', (req, res, next) => {
     }
   })
 });
+
+router.post('/check', (req, res, next) => {
+  var pass = req.body.password;
+  //console.log(pass);
+  if (pass == "admin") {
+    res.render('car/new_car');
+  }
+  else {
+    res.redirect('/');
+  }
+});
+
+router.post('/checkuser', (req, res, next) => {
+  var pass = req.body.password;
+  //console.log(pass);
+  if (pass == "admin") {
+    user.find((err, data) => {
+      res.render('user/userlist', {data: data});
+    }).lean();
+  }
+  else {
+    res.redirect('/');
+  }
+});
+
+router.get('/mybookings', (req, res, next) => {
+  var bookingArray = [];
+  var id = req.user;
+Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
+  console.log(doc);
+  res.render('userbookings', {data: doc})
+})
+})
 
 module.exports = router;
