@@ -17,6 +17,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
 require('./config/passport');
 
+var admins = require('./config/admins');
+
 var app = express();
 
 
@@ -57,6 +59,16 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.login = req.isAuthenticated(); 
   res.locals.session = req.session;
+  if(req.user) {
+      if(admins.indexOf(req.user.mobile) !== -1) {
+        res.locals.isadmin = true;
+      }
+      else {
+        res.locals.isadmin = false;
+      }
+  }
+  //res.locals.isadmin = res.locals.isadmin ? res.locals.isadmin : false;
+
   next();
 });
 
@@ -72,6 +84,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page

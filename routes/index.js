@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Car = require('../models/car');
 var Booking = require('../models/bookings');
 const user = require('../models/user');
+var fs = require('fs');
 const { countDocuments } = require('../models/car');
 
 /* GET home page. */
@@ -230,17 +231,24 @@ router.post('/checkuser', (req, res, next) => {
 });
 
 router.get('/admin', (req, res, next) => {
-  res.render('admin');
-});
-
-router.post('/adminpanel', (req, res, next) => {
-  var pass = req.body.password;
-  if(pass == "admin") {
-  
-      res.render('admin/adminpage');
-    
+  console.log("isadmin" + res.locals.isadmin);
+  if(res.locals.isadmin == true) {
+    res.render('admin/adminpage');
+  }
+  else {
+  res.redirect('/');
   }
 });
+
+// router.post('/adminpanel', (req, res, next) => {
+//   var pass = req.body.password;
+//   if(pass == "admin") {
+//       res.locals.isadmin = true;
+//       console.log("isadmin" + res.locals.isadmin);
+//       res.render('admin/adminpage');
+    
+//   }
+// });
 
 router.get('/admincarlist', (req, res, next) => {
   var cars = Car.find((err, data) => {
@@ -301,6 +309,7 @@ router.get('/toggleavailable/:id', (req, res, next) => {
 router.get('/mybookings', (req, res, next) => {
   var bookingArray = [];
   var id = req.user;
+  console.log(id.mobile);
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
   console.log(doc);
   res.render('userbookings', {data: doc})
