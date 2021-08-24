@@ -42,7 +42,8 @@ passport.use('local.signup', new localStrategy({
       }
       var newUser = new User() ;
       newUser.mobile = mobile;
-      // console.log('ep');
+      newUser.license = req.body.license;
+      newUser.name = req.body.name;
       newUser.password = newUser.encryptPassword(password);
       newUser.save(function(err, result) {
         if (err) {
@@ -51,6 +52,7 @@ passport.use('local.signup', new localStrategy({
         }
         else {
           // console.log('no error');
+          console.log(newUser);
           return done(null, newUser);
         }
       });

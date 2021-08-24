@@ -7,6 +7,8 @@ var schema = new Schema({
     bookedBy: {type: String},
     from: {type: Date, required: true},
     to: {type: Date, required: true},
+    pickup: {type: String, required: true},
+    drop: {type: String, required: true},
     totalprice:{type: Number, required: true}
 }, {
     timestamps: true
