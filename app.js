@@ -67,6 +67,11 @@ app.use((req, res, next) => {
         res.locals.isadmin = false;
       }
   }
+  
+  if(req.user) {
+    res.locals.verified = req.user.verified;
+    
+  }
   //res.locals.isadmin = res.locals.isadmin ? res.locals.isadmin : false;
 
   next();

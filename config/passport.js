@@ -43,6 +43,7 @@ passport.use('local.signup', new localStrategy({
       var newUser = new User() ;
       newUser.mobile = mobile;
       newUser.license = req.body.license;
+      newUser.verified = false;
       newUser.name = req.body.name;
       newUser.password = newUser.encryptPassword(password);
       newUser.save(function(err, result) {

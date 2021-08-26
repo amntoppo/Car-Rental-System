@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const User = require('../models/user');
 
 //authentication and session
 var csurf = require('csurf');
@@ -14,6 +15,36 @@ router.use(csurfProtection);
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
+
+router.get('/profile', (req, res, next) => {
+  User.findById(req.user._id, (err, data) => {
+    res.render('user/profile', {name: data.name, license: data.license, mobile: data.mobile, verified: data.verified});
+  });
+  
+});
+
+router.get('/editprofile', (req, res, next) => {
+  res.render('user/editprofile', {csurfToken: req.csrfToken()});
+});
+
+router.post('/updateprofile', isLoggedIn, (req, res, next) => {
+  var id = req.user;
+  var mobile = req.body.mobile;
+  var name = req.body.name;
+  var license = req.body.license;
+  User.findById(id, (err, data) => {
+      //data.mobile = mobile;
+      data.name = name;
+      data.license = license;
+      //doc.markModified('mobile');
+      data.markModified('name');
+      data.markModified('license');
+      data.save((err, doc) => {
+        res.redirect('/user/profile');
+      });
+
+  })
+})
 
 router.get('/signup', (req, res, next) => {
   var messages = req.flash('error');

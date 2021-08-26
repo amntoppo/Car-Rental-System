@@ -1,3 +1,5 @@
+{{#if verified}}
+
 <div class="row centered mt-4">
     <div class="col-md-7 col-md-offset-1 mx-auto">
         <center>
@@ -164,3 +166,172 @@
     </center>
     </div>
 </div>
+
+{{else}}
+<div class="row centered mt-4">
+    <div class="col-md-7 col-md-offset-1 mx-auto">
+        <center>
+        <table class="table table-hover table-striped table-dark table-hover">
+            
+
+    <div class="dropdown">
+  <button class="dropbtn">Select Category</button>
+  <div class="dropdown-content">
+    <a href="/categoryfilter/SUV">SUV</a>
+    <a href="/categoryfilter/Sedan">Sedan</a>
+    <a href="/categoryfilter/Hatchback">Hatchback</a>
+  </div>
+</div>
+            <br><br>
+            <thead>
+                <tr>
+                    {{!-- <th scope="col" class="pl-5 pr-5">License Number</th> --}}
+                    <th scope="col"class="pl-5 pr-5">Car Model</th>
+                    <th scope="col" class="pl-5 pr-3">Base Price</th>
+                    <th scope="col" class="pl-2 pr-3">Hourly rate</th>
+                     <th scope="col" class="pl-2 pr-2">Deposit</th>
+                     
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    
+                     <th scope="row"class="pl-5 pr-5">{{this.manufacturer}} {{this.model}}</th>
+                    <td class="pl-5 pr-3">{{this.baseprice}}</td>
+                    <td class="pl-2 pr-3">{{this.pph}}</td>
+                    <td class="pl-2 pr-2"> {{this.security}}</td>
+                    
+                        <td>
+                        
+                    
+
+                            
+                      <button type="submit" class="btn btn-danger">Profile not verified </button>
+                            
+                       
+                    </td>
+                    
+                
+                    {{!-- <form method="get" action="/bookingdetails/{{this._id}}">
+                    <td class="pl-2 pr-1"> <button type="submit" class="btn">-></button></td>
+                    </form> --}}
+                    
+                    {{!-- --}}
+                    <!-- Modal -->
+<!-- Modal -->
+   {{!-- <div class="modal fade" id="{{@index}}Modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Book your ride!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+              <form method="post" action="/cars/book/{{this._id}}">
+                    <input type="text" class="form-control"name="datetimes" id="datetimes">
+                    <button type="submit" class="btn btn-success">Book </button>
+                </form>
+            
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div> --}}
+
+
+
+    <div class="modal fade" id="{{@index}}Modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Book your ride!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+              <form method="post" action="/cars/book/{{this._id}}">
+                    
+<div class="form-group">
+  <label for="durationpicker">Select duration</label>
+
+  <input type="text" class="form-control"name="datetimes" id="datetimes">
+                      {{!-- <select class="dropbtn" data-style="btn-info" name="durationpick">
+                      <optgroup label="Select duration">
+                          <div class="dropdown-content">
+                          
+                          <option name="3" value="3">4 hours</option>
+                          <option name="3" value="3">6 hours</option>
+                          <option name="3" value="3">8 hours</option>
+                          <option name="3" value="3">10 hours</option>
+                          <option name="3" value="3">12 hours</option>
+                          <option name="3" value="3">15 hours</option>
+                          <option name="3" value="3">18 hours</option>
+                          <option name="3" value="3">24 hours</option>
+                          <option name="3" value="3">36 hours</option>
+
+                          </div>
+                      </optgroup>
+                      </select></div> --}}
+                      
+
+                    <div class="form-group">
+                      <label for="pickuppicker">Select pickup location</label>
+                    <select class="dropbtn" data-style="btn-info" name="pickuppick">
+                      <optgroup label="Pickup location">
+                          <div class="dropdown-content">
+                          <option name="Marathahalli" value="Marathahalli">Marathahalli</option>
+                          <option name="Kormangala" value="Kormangala">Kormangala</option>
+                          <option name="Majestic" value="Majestic">Majestic</option>
+                          </div>
+                      </optgroup>
+                      </select></div>
+
+
+<div class="form-group">
+  <label for="dropppicker">Select drop location</label>
+                      <select class="dropbtn" data-style="btn-info" name="dropick">
+                      <optgroup label="Drop location">
+                          <div class="dropdown-content">
+                          <option name="Marathahalli" value="Marathahalli">Marathahalli</option>
+                          <option name="Kormangala" value="Kormangala">Kormangala</option>
+                          <option name="Majestic" value="Majestic">Majestic</option>
+                          </div>
+                      </optgroup>
+
+
+                    </select></div>
+                    <button type="submit" class="btn btn-success">Book </button>
+                </form>
+            
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+                   
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </center>
+    </div>
+</div>
+
+
+{{/if}}

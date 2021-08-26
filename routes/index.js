@@ -12,8 +12,14 @@ const { countDocuments } = require('../models/car');
 router.get('/', function(req, res, next) {
 
   var cars = Car.find((err, data) => {
-    
-    res.render('index', {data: data, isLogin: req.isAuthenticated()})
+    if(err) {
+      console.log(err);
+    }
+    else {
+    var verified = res.locals.verified;
+    console.log(verified);
+    res.render('index', {data: data, isLogin: req.isAuthenticated(), verified: verified})
+    }
   }).lean();
 });
 
@@ -163,7 +169,7 @@ router.post('/cars/book/:id', (req, res, next) => {
             console.log(carresult);
           }
          });
-        res.render('car/bookingconfirm', {manufacturer: doc.manufacturer, model: doc.model, totalprice: totalprice, from: spliteddatetime[0], to:spliteddatetime[1]});
+        res.render('car/bookingconfirm', {manufacturer: doc.manufacturer, model: doc.model, totalprice: totalprice, from: spliteddatetime[0], to:spliteddatetime[1], pickup: pickuplocation, drop: droplocation});
         
       }
     })
@@ -287,6 +293,38 @@ router.get('/categoryfilter/:id', (req, res, next) => {
   }).lean();
   
 });
+
+router.get('/verifylicense', (req, res, next) => {
+  user.find({verified: false}, (err, data) => {
+    res.render('admin/verify', {data: data});
+  }).lean();
+})
+
+router.post('/acceptverification/:id', (req, res, next) => {
+  var id = req.params.id;
+  user.findByIdAndUpdate(id, {verified: true}, (err, docs) => {
+    if(err) {
+      console.log(err)
+    }
+    else {
+      res.redirect('/verifylicense');
+      console.log(docs);
+    }
+  })
+})
+
+router.post('/rejectverification/:id', (req, res, next) => {
+  var id = req.params.id;
+  user.findByIdAndUpdate(id, {verified: false}, (err, docs) => {
+    if(err) {
+      console.log(err)
+    }
+    else {
+      res.redirect('/verifylicense');
+      console.log(docs);
+    }
+  })
+})
 
 router.get('/toggleavailable/:id', (req, res, next) => {
   var id = req.params.id;
