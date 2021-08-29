@@ -13,7 +13,7 @@ const { countDocuments } = require('../models/car');
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, 'carimage')
+      cb(null, path.join(__dirname, '../carimage/'))
   },
   filename: (req, file, cb) => {
       cb(null, file.originalname)
@@ -244,7 +244,8 @@ function diff_hours(dt2, dt1)
     return datum/1000;
    }
 
-router.post('/create_car',upload.single('image'),async (req, res) => {
+router.post('/create_car',upload.single('image'), async (req, res) => {
+  var filesync = fs.readFileSync(path.join(__dirname, '../carimage/' + req.file.filename));
   var newCar = new Car({
     carlicensenumber: req.body.car_license_number,
     manufacturer: req.body.manufacturer,
@@ -254,10 +255,10 @@ router.post('/create_car',upload.single('image'),async (req, res) => {
     baseprice: req.body.base_price,
     pph: req.body.pph,
     security: req.body.security,
-  //   img : {
-  //     data: fs.readFileSync(path.join(__dirname, '../carimage/' + req.file.filename)),
-  //     contentType: 'image/png'
-  // }
+    img : {
+      data: filesync,
+      contentType: 'image/png'
+  }
   });
   newCar.save((err, output) => {
     if(err) {
