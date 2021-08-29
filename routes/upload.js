@@ -50,14 +50,19 @@ var upload = multer({ storage: storage });
             data: fs.readFileSync(path.join(__dirname, '../uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
+        data.verified = false;
+        data.markModified('verified');
         data.markModified('img');
+
+        
+        var message = "Your license has been uploaded";
         data.save((err, output) => {
             if (err) console.log(err);
             else
-            console.log(output);
+            res.render('user/profile', {name: data.name, license: data.license, mobile: data.mobile, verified: data.verified, id: data._id, message: message});
         })
     })
-    res.redirect('/user/profile');
+    
     //return res.send(imgUrl);
   });
 //   app.post(

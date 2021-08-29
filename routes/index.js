@@ -66,6 +66,10 @@ router.get('/productdetail/:id', (req, res, next) => {
   
 })
 
+router.get('/policy', (req, res, next) => {
+  res.render('policy');
+});
+
 router.get('/users', (req, res, next) => {
   res.render('usersecurity');
   
@@ -429,9 +433,10 @@ router.post('/searchuser', (req, res, next) => {
 
 router.get('/categoryfilter/:id', (req, res, next) => {
   console.log(req.params.id);
+  var verified = res.locals.verified;
   var cars = Car.find({category: req.params.id}, (err, data) => {
     
-    res.render('index', {data: data, isLogin: req.isAuthenticated()})
+    res.render('index', {data: data, isLogin: req.isAuthenticated(), verified: verified})
   }).lean();
   
 });
