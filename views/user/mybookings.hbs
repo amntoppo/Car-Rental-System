@@ -1,0 +1,64 @@
+
+<div class="row mt-4">
+    <div class="col-md-15 col-md-offset-1 mx-auto">
+        {{#if nobookings}}
+        
+        <div class="alert alert-danger">
+            
+            <p>You do not have any bookings</p>
+            
+        </div>
+        {{else}}
+        <center>
+        <table class="table table-hover table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                    {{!-- <th scope="col" class="pl-5 pr-5">License Number</th> --}}
+                    <th scope="col"class="pl-5 pr-5">Car Model</th>
+                    <th scope="col"class="pl-5 pr-5">Registration No.</th>
+                    <th scope="col" class="pl-5 pr-3">From</th>
+                    <th scope="col" class="pl-2 pr-3">To</th>
+                     <th scope="col" class="pl-2 pr-2">Price</th>
+                       <th scope="col" class="pl-2 pr-5">Status</th>
+                     
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                
+                <tr>
+                    
+                     <th scope="row"class="pl-5 pr-5">{{carid.manufacturer}} {{carid.model}}</th>
+                     <td class="pl-5 pr-3">{{carid.carlicensenumber}}</td>
+                    <td class="pl-5 pr-3">{{this.from}}</td>
+                    <td class="pl-2 pr-3">{{this.to}}</td>
+                    <td class="pl-2 pr-2"> {{this.totalprice}}</td>
+                    {{#if this.active}}
+                    <td class="pl-2 pr-2"> <form method="get" action="/userbookingstatus/cancel/{{this._id}}">
+                
+                    <button type="submit" class="btn btn-danger">Cancel booking </button>
+                </form></td>
+                    {{else}}
+                            {{#if this.finished}}
+                            <td class="pl-2 pr-2"> Finished</td>
+                            {{else}}
+                            <td class="pl-2 pr-2"> Cancelled</td>
+                            {{/if}}
+
+                    {{/if}}
+                   
+                    {{!-- --}}
+                    <!-- Modal -->
+<!-- Modal -->
+  </div>
+                   
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </center>
+    {{/if}}
+    </div>

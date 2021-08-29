@@ -1,5 +1,12 @@
 <div class="row centered mt-4">
     <div class="col-md-7 col-md-offset-1 mx-auto">
+      {{#if nouser}}
+      <div class="alert alert-danger">
+            
+            <p>No pending users</p>
+            
+        </div>
+        {{else}}
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             <h1>Pending users</h1>
@@ -19,9 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#if data}} data is available
-                {{else}} not available
-                {{/if}}
+                
                 {{#each data}}
                 
                 <tr>
@@ -107,6 +112,7 @@
             </tbody>
         </table>
     </center>
+    {{/if}}
        
     </div>
 </div>

@@ -47,6 +47,25 @@ router.get('/', function(req, res, next) {
   }).lean();
 });
 
+router.get('/productdetail/:id', (req, res, next) => {
+  var id = req.params.id;
+  Car.findById(id, (err, data) => {
+    if(err) {
+      console.log(err);
+    }
+      if(data.img) {
+        data.hasimage = true;
+        data.datastring = data.img.data.toString('base64');
+      }
+      else {
+        data.hasimage = false;
+      }
+    
+    res.render('productdetail', {data: data});
+  }).lean();
+  
+})
+
 router.get('/users', (req, res, next) => {
   res.render('usersecurity');
   
@@ -92,6 +111,35 @@ router.get('/bookingstatus/:status/:id', (req, res, next) => {
     data.save((err, doc) => {
       Booking.find({'userid':doc.userid}).populate('carid').populate('userid').lean(true).exec().then(doc => {
         res.render('userbookings', {data: doc})
+      })
+    })
+
+  })
+  
+});
+router.get('/userbookingstatus/:status/:id', (req, res, next) => {
+  var status = req.params.status;
+  var id = req.params.id;
+  console.log(req.params.status + req.params.id);
+
+  Booking.findById(id, (err, data) => {
+    if(status == "active") {
+      data.active = true
+      data.finished = false;
+    }
+    else if(status == "cancel") {
+      data.active = false;
+      data.finished = false;
+    }
+    else if(status == "finished") {
+      data.active = false;
+      data.finished = true;
+    }
+    data.markModified('active');
+    data.markModified('finished');
+    data.save((err, doc) => {
+      Booking.find({'userid':doc.userid}).populate('carid').populate('userid').lean(true).exec().then(doc => {
+        res.render('user/mybookings', {data: doc})
       })
     })
 
@@ -396,13 +444,21 @@ router.get('/verifylicense', (req, res, next) => {
     //console.log(data);
 
     var temp = data;
+    var nouser = true;
     temp.forEach(element => {
       if(element.img) {
         element.datastring = element.img.data.toString('base64');
       }
+      
     });
+    if (data.length) {
+      nouser = false;
+    }
+    else {
+      data = true;
+    }
     
-    res.render('admin/verify', {data: data});
+    res.render('admin/verify', {data: data, nouser: nouser});
   }).lean();
 })
 
@@ -462,7 +518,7 @@ Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec
     nobookings = true;
   }
   console.log(nobookings);
-  res.render('userbookings', {data: doc, nobookings: nobookings})
+  res.render('user/mybookings', {data: doc, nobookings: nobookings})
 })
 })
 
