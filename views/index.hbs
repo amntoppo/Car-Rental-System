@@ -48,6 +48,39 @@
                        
                     </td>
                     
+                    <td>
+                      {{#if this.hasimage}}<button type="submit" class="btn btn-success" data-toggle="modal"
+                            data-target="#{{@index}}image">View image </button>{{/if}}
+
+                    </td>
+
+                    <div class="modal fade" id="{{@index}}image" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">{{this.manufacturer}} {{this.model}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+              <div class="form-group">
+                      <label for="dropppicker"></label>
+                      <img src="data:image/{{this.img.contentType}};base64,
+                     {{this.datastring}}" height="350px" weight="350px">
+
+                      </div>
+                    
+            
+            
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+                    
                 
                     {{!-- <form method="get" action="/bookingdetails/{{this._id}}">
                     <td class="pl-2 pr-1"> <button type="submit" class="btn">-></button></td>
@@ -173,7 +206,11 @@
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             
-
+<div class="alert alert-info">
+        
+        <p>Kindly wait for your license to be verified</p>
+        
+      </div>
     <div class="dropdown">
   <button class="dropbtn">Select Category</button>
   <div class="dropdown-content">
@@ -209,10 +246,42 @@
                     
 
                             
-                      <button type="submit" class="btn btn-danger">Profile not verified </button>
+                      {{!-- <button type="submit" class="btn btn-danger">Profile not verified </button> --}}
                             
                        
                     </td>
+                    <td>
+                      {{#if this.hasimage}}<button type="submit" class="btn btn-success" data-toggle="modal"
+                            data-target="#{{@index}}image">View image </button>{{/if}}
+
+                    </td>
+                
+                    <div class="modal fade" id="{{@index}}image" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">{{this.manufacturer}} {{this.model}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+              <div class="form-group">
+                      <label for="dropppicker"></label>
+                      <img src="data:image/{{this.img.contentType}};base64,
+                     {{this.datastring}}" height="350px" weight="350px">
+
+                      </div>
+                    
+            
+            
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
                     
                 
                     {{!-- <form method="get" action="/bookingdetails/{{this._id}}">

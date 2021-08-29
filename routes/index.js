@@ -31,6 +31,16 @@ router.get('/', function(req, res, next) {
     }
     else {
     var verified = res.locals.verified;
+    var temp = data;
+    temp.forEach(element => {
+      if(element.img) {
+        element.hasimage = true;
+        element.datastring = element.img.data.toString('base64');
+      }
+      else {
+        element.hasimage = false;
+      }
+    });
     console.log(verified);
     res.render('index', {data: data, isLogin: req.isAuthenticated(), verified: verified})
     }
@@ -45,9 +55,16 @@ router.get('/users', (req, res, next) => {
 
 router.post('/bookings/:id', (req, res, next) => {
   var id = req.params.id;
-  var bookingArray = [];
+  var nobookings = true;
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
-  res.render('userbookings', {data: doc})
+  if (doc.length) {
+    nobookings = false;
+  }
+  else {
+    nobookings = true;
+  }
+  console.log(nobookings);
+  res.render('userbookings', {data: doc, nobookings: nobookings})
 })
 })
 
@@ -112,9 +129,15 @@ router.get('/cars', (req, res, next) => {
 
 router.get("/bookingdetails/:id", (req, res, next) => {
   var id = req.params.id;
- 
+  var nobookings = true;
   Booking.find({'carid' : id}, (err, data) => {
-    res.render('car/details', {data: data});
+    if (data.length) {
+      nobookings = false;
+    }
+    else {
+      nobookings = true;
+    }
+    res.render('car/details', {data: data, nobookings: nobookings});
 
   }).lean();
 
@@ -216,7 +239,7 @@ router.post('/cars/book/:id', (req, res, next) => {
             console.log(carresult);
           }
          });
-        res.render('car/bookingconfirm', {manufacturer: doc.manufacturer, model: doc.model, totalprice: totalprice, from: spliteddatetime[0], to:spliteddatetime[1], pickup: pickuplocation, drop: droplocation});
+        res.render('car/bookingconfirm', {manufacturer: doc.manufacturer, model: doc.model, totalprice: totalprice, from: spliteddatetime[0], to:spliteddatetime[1], pickup: pickuplocation, drop: droplocation, pph: totalhours * doc.pph, security: doc.security, baseprice: doc.baseprice, totalhours: totalhours});
         
       }
     })
@@ -397,7 +420,7 @@ router.post('/acceptverification/:id', (req, res, next) => {
 
 router.post('/rejectverification/:id', (req, res, next) => {
   var id = req.params.id;
-  user.findByIdAndUpdate(id, {verified: false}, (err, docs) => {
+  user.findByIdAndUpdate(id, {verified: null}, (err, docs) => {
     if(err) {
       console.log(err)
     }
@@ -427,12 +450,18 @@ router.get('/toggleavailable/:id', (req, res, next) => {
 })
 
 router.get('/mybookings', (req, res, next) => {
-  var bookingArray = [];
   var id = req.user;
+  var nobookings = true;
   console.log(id.mobile);
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
-  console.log(doc);
-  res.render('userbookings', {data: doc})
+  if (doc.length) {
+    nobookings = false;
+  }
+  else {
+    nobookings = true;
+  }
+  console.log(nobookings);
+  res.render('userbookings', {data: doc, nobookings: nobookings})
 })
 })
 

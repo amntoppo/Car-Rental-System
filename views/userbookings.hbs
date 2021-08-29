@@ -1,6 +1,14 @@
 {{#if isadmin}}
 <div class="row mt-4">
     <div class="col-md-15 col-md-offset-1 mx-auto">
+        {{#if nobookings}}
+        
+        <div class="alert alert-danger">
+            
+            <p>No user has booked this car yet</p>
+            
+        </div>
+        {{else}}
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             <thead>
@@ -53,6 +61,7 @@
                     {{!-- --}}
                     <!-- Modal -->
 <!-- Modal -->
+
   </div>
                    
 
@@ -60,12 +69,21 @@
                 {{/each}}
             </tbody>
         </table>
+        {{/if}}
     </center>
     </div>
 </div>
 {{else}}
 <div class="row mt-4">
     <div class="col-md-15 col-md-offset-1 mx-auto">
+        {{#if nobookings}}
+        
+        <div class="alert alert-danger">
+            
+            <p>You do not have any bookings</p>
+            
+        </div>
+        {{else}}
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             <thead>
@@ -114,6 +132,7 @@
             </tbody>
         </table>
     </center>
+    {{/if}}
     </div>
 </div>
 

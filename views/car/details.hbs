@@ -1,5 +1,13 @@
 <div class="row centered mt-4">
     <div class="col-md-7 col-md-offset-1 mx-auto">
+      {{#if nobookings}}
+        
+        <div class="alert alert-danger">
+            
+            <p>User does not have any bookings</p>
+            
+        </div>
+        {{else}}
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             <thead>
@@ -62,5 +70,6 @@
             </tbody>
         </table>
     </center>
+    {{/if}}
     </div>
 </div>
