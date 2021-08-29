@@ -10,14 +10,18 @@
                     <th scope="col"class="pl-5 pr-5">Number</th>
                      <th scope="col"class="pl-5 pr-5">Name</th>
                      <th scope="col"class="pl-5 pr-5">License</th>
-                    <th scope="col" class="pl-5 pr-3">Accept</th>
-                    <th scope="col" class="pl-5 pr-3">Reject</th>
+                     <th scope="col"class="pl-5 pr-5"></th>
+                    <th scope="col" class="pl-5 pr-3">View License</th>
+                    
                      
 
 
                 </tr>
             </thead>
             <tbody>
+                {{#if data}} data is available
+                {{else}} not available
+                {{/if}}
                 {{#each data}}
                 
                 <tr>
@@ -25,19 +29,27 @@
                      <th scope="row"class="pl-5 pr-5">{{this.mobile}} </th>
                      <th scope="row"class="pl-5 pr-5">{{this.name}} </th>
                      <th scope="row"class="pl-5 pr-5">{{this.license}} </th>
+                     <th scope="row"class="pl-5 pr-5"><a data-toggle="modal"
+                            data-target="#{{@index}}Modal"><img src="data:image/{{this.img.contentType}};base64,
+                     {{this.datastring}}" height="50px" weight="50px"> </a></th>
                      
-                    <th scope="row"class="pl-5 pr-5">
+                    {{!-- <th scope="row"class="pl-5 pr-5">
                         <form method="post" action="/acceptverification/{{this._id}}">
                 
                     <button type="submit" class="btn btn-success">-> </button>
                 </form>
                         
+                    </th> --}}
+                    <th scope="row"class="pl-5 pr-5">
+                        
+                
+                    <button type="submit" class="btn btn-success" data-toggle="modal"
+                            data-target="#{{@index}}Modal">View </button>
+                
+                        
                     </th>
                     <th scope="row"class="pl-5 pr-5">
-                        <form method="post" action="/rejectverification/{{this._id}}">
-                
-                    <button type="submit" class="btn btn-danger">X </button>
-                </form>
+                        
                         
                     </th>
                     
@@ -49,9 +61,52 @@
                    
 
                 </tr>
+                <div class="modal fade" id="{{@index}}Modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Verify</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="height: 1000px;">
+              
+                    
+
+
+<div class="form-group">
+  <label for="dropppicker"></label>
+                      <img src="data:image/{{this.img.contentType}};base64,
+                     {{this.datastring}}" height="350px" weight="350px">
+
+                      </div>
+                    
+            <div class="form-group">
+                <form method="post" action="/acceptverification/{{this._id}}">
+                
+                    <button type="submit" class="btn btn-success">Accept </button>
+                </form>
+                </div>
+                 <div class="form-group">
+            <form method="post" action="/rejectverification/{{this._id}}">
+                
+                    <button type="submit" class="btn btn-danger">Reject </button>
+                </form>
+                </div>
+            
+            </div>
+          <div class="modal-footer">
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
                 {{/each}}
             </tbody>
         </table>
     </center>
+       
     </div>
 </div>

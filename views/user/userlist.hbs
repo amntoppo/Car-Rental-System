@@ -3,12 +3,25 @@
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
             <h1>List of users</h1>
-             
+             <br>
+             <div class="form-group">
+            <form method="post" action="/searchuser">
+            
+      
+      <input type="name" class="form-control" id="usersearch" name="usersearch" aria-describedby="nameleHelp" placeholder="Search">
+      
+    
+                
+               <button type="submit" class="btn ">Search </button>
+            </form>
+            </div>
+             <br>
             <thead>
                 <tr>
                     {{!-- <th scope="col" class="pl-5 pr-5">License Number</th> --}}
                     <th scope="col"class="pl-5 pr-5">Number</th>
-                    <th scope="col" class="pl-5 pr-3">Bookings</th>
+                     <th scope="col"class="pl-5 pr-5">Name</th>
+                     <th scope="col"class="pl-5 pr-5">License</th>
                      
 
 
@@ -20,10 +33,12 @@
                 <tr>
                     
                      <th scope="row"class="pl-5 pr-5">{{this.mobile}} </th>
+                     <th scope="row"class="pl-5 pr-5">{{this.name}} </th>
+                     <th scope="row"class="pl-5 pr-5">{{this.license}} </th>
                     <td>
                         <form method="post" action="/bookings/{{this._id}}">
                 
-                    <button type="submit" class="btn btn-success">-> </button>
+                    <button type="submit" class="btn ">Bookings </button>
                 </form>
                         
                     </td>

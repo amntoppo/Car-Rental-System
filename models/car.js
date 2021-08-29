@@ -11,7 +11,12 @@ var schema = new Schema({
     pph: {type: Number, required: true},
     security:{type: Number, required: true},
     available:{type: Boolean, default: true},
-    currentBooking:{type: Date, default: Date.now}
+    currentBooking:{type: Date, default: Date.now},
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 

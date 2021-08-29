@@ -55,7 +55,7 @@
 <div class="row centered mt-4">
   <div class="col-md-4 col-md-offset-4 mx-auto">
     <h1>Enter car details</h1>
-    <form method="post" action="/create_car">
+    <form method="post" action="/create_car" enctype="multipart/form-data">
     <div class="form-group">
       <label for="inputmobile">Registration Number</label>
       <input type="text" class="form-control" id="car_license_number" name="car_license_number" aria-describedby="car_license_numberhelp" placeholder="Enter Registration Number">
@@ -104,6 +104,10 @@
       <label for="exampleInputPassword1">Security deposit</label>
       <input type="number" id ="security" name ="security" class="form-control" placeholder="Enter security deposit">
     </div>
+    {{!-- <div class="form-group">
+      <label for="imageupload">Upload an image</label>
+    <input type="file" id="image"
+                       name="image" value=""></div> --}}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   </div>

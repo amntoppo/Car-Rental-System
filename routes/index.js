@@ -6,7 +6,21 @@ var Car = require('../models/car');
 var Booking = require('../models/bookings');
 const user = require('../models/user');
 var fs = require('fs');
+var path = require('path');
+const multer = require("multer");
 const { countDocuments } = require('../models/car');
+
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'carimage')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.originalname)
+  }
+});
+
+var upload = multer({ storage: storage });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -33,29 +47,62 @@ router.post('/bookings/:id', (req, res, next) => {
   var id = req.params.id;
   var bookingArray = [];
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
-  console.log(doc);
   res.render('userbookings', {data: doc})
 })
 })
 
+router.get('/bookingstatus/:status/:id', (req, res, next) => {
+  var status = req.params.status;
+  var id = req.params.id;
+  console.log(req.params.status + req.params.id);
 
-router.post('/searchcars', (req, res, next) => {
-  var carArray = [];
-  var carIdArray =[];
-  var searchdatetime = req.body.searchdatetimes;
-  var spliteddatetime = searchdatetime.split(" - ")
+  Booking.findById(id, (err, data) => {
+    if(status == "active") {
+      data.active = true
+      data.finished = false;
+    }
+    else if(status == "cancel") {
+      data.active = false;
+      data.finished = false;
+    }
+    else if(status == "finished") {
+      data.active = false;
+      data.finished = true;
+    }
+    data.markModified('active');
+    data.markModified('finished');
+    data.save((err, doc) => {
+      Booking.find({'userid':doc.userid}).populate('carid').populate('userid').lean(true).exec().then(doc => {
+        res.render('userbookings', {data: doc})
+      })
+    })
+
+  })
   
+});
 
-Booking.find().or([
-  {$and: [{'from': {$gte: spliteddatetime[0]}}, {'to': {$gte: spliteddatetime[1]}}] },
-  {$and: [{'from': {$lt: spliteddatetime[0]}}, {'to' : {$lt: spliteddatetime[1]}}] }
-])
-.populate('carid')
-.lean(true)
-.exec()
-.then(data => {
-  res.render('car/search', {data: data})
-})
+
+
+router.post('/searchcar', (req, res, next) => {
+  var searchquery = req.body.carsearch;
+    var regex = new RegExp(searchquery, 'i');
+
+  Car.find().or([
+    // {mobile: searchquery.isNumberic() ? searchquery: ''},
+    {model: regex},
+    {carlicensenumber: regex},
+    {manufacturer: regex},
+    {category: regex},
+    {chesis: regex}
+  ])
+  .lean(true)
+  .exec()
+  .then(data => {
+    console.log(data);
+    res.render('admin/admin_car_list', {data: data})
+  })
+
+
 })
 
 router.get('/cars', (req, res, next) => {
@@ -197,7 +244,7 @@ function diff_hours(dt2, dt1)
     return datum/1000;
    }
 
-router.post('/create_car', (req, res, next) => {
+router.post('/create_car',upload.single('image'),async (req, res) => {
   var newCar = new Car({
     carlicensenumber: req.body.car_license_number,
     manufacturer: req.body.manufacturer,
@@ -206,7 +253,11 @@ router.post('/create_car', (req, res, next) => {
     chesis: req.body.chesis,
     baseprice: req.body.base_price,
     pph: req.body.pph,
-    security: req.body.security
+    security: req.body.security,
+  //   img : {
+  //     data: fs.readFileSync(path.join(__dirname, '../carimage/' + req.file.filename)),
+  //     contentType: 'image/png'
+  // }
   });
   newCar.save((err, output) => {
     if(err) {
@@ -285,6 +336,24 @@ router.get('/adminuserlist', (req, res, next) => {
   }).lean();
 });
 
+router.post('/searchuser', (req, res, next) => {
+  var searchquery = req.body.usersearch;
+
+  var regex = new RegExp(searchquery, 'i');
+
+  user.find().or([
+    // {mobile: searchquery.isNumberic() ? searchquery: ''},
+    {license: regex},
+    {name: regex}
+  ])
+  .lean(true)
+  .exec()
+  .then(data => {
+    console.log(data);
+    res.render('user/userlist', {data: data})
+  })
+})
+
 router.get('/categoryfilter/:id', (req, res, next) => {
   console.log(req.params.id);
   var cars = Car.find({category: req.params.id}, (err, data) => {
@@ -294,8 +363,20 @@ router.get('/categoryfilter/:id', (req, res, next) => {
   
 });
 
+
+
+
 router.get('/verifylicense', (req, res, next) => {
   user.find({verified: false}, (err, data) => {
+    //console.log(data);
+
+    var temp = data;
+    temp.forEach(element => {
+      if(element.img) {
+        element.datastring = element.img.data.toString('base64');
+      }
+    });
+    
     res.render('admin/verify', {data: data});
   }).lean();
 })

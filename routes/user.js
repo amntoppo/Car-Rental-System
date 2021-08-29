@@ -1,13 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
+var fs = require('fs');
+var path = require('path');
+var bodyParser  = require('body-parser');
+const {GridFsStorage} = require('multer-gridfs-storage');
 
+const upload = require("../config/upload");
 //authentication and session
 var csurf = require('csurf');
 var passport = require('passport');
 var flash = require('connect-flash');
-
-
 var csurfProtection = csurf();
 router.use(csurfProtection);
 
@@ -16,12 +19,20 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+
 router.get('/profile', (req, res, next) => {
   User.findById(req.user._id, (err, data) => {
-    res.render('user/profile', {name: data.name, license: data.license, mobile: data.mobile, verified: data.verified});
+    res.render('user/profile', {name: data.name, license: data.license, mobile: data.mobile, verified: data.verified, id: data._id});
   });
-  
 });
+
+// router.post('/uploadlicense', upload.single('file'), async  (req, res, next) => {
+//   const imgUrl = `http://localhost:3000/file/${req.file.image}`;
+//   console.log("upload" + req.file.image);
+//   return res.send(imgUrl);
+// });
+
+
 
 router.get('/editprofile', (req, res, next) => {
   res.render('user/editprofile', {csurfToken: req.csrfToken()});

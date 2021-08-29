@@ -21,7 +21,12 @@ const userSchema = mongoose.Schema({
   },
   verified: {
     type: Boolean
-  }
+  },
+  img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 userSchema.methods.encryptPassword = function(password) {

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const Grid = require("gridfs-stream");
 
 var expresshbs = require('express-handlebars');
 var mongoose = require("mongoose");
@@ -15,6 +16,7 @@ var validator = require('express-validator');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
+const upload = require("./routes/upload");
 require('./config/passport');
 
 var admins = require('./config/admins');
@@ -22,6 +24,7 @@ var admins = require('./config/admins');
 var app = express();
 
 
+let gfs;
 //mongoose setup
 mongoose.connect('mongodb://localhost:27017/car_rental', {
   useNewUrlParser: true,
@@ -29,8 +32,30 @@ mongoose.connect('mongodb://localhost:27017/car_rental', {
 });
 var db = mongoose.connection;
 db.once('open', () => {
+  gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection("photos");
   console.log("we are connected to database");
 })
+app.use("/file", upload)
+app.get("/file/:filename", async (req, res) => {
+  try {
+      const file = await gfs.files.findOne({ filename: req.params.filename });
+      const readStream = gfs.createReadStream(file.filename);
+      readStream.pipe(res);
+  } catch (error) {
+      res.send("not found");
+  }
+});
+
+app.delete("/file/:filename", async (req, res) => {
+  try {
+      await gfs.files.deleteOne({ filename: req.params.filename });
+      res.send("success");
+  } catch (error) {
+      console.log(error);
+      res.send("An error occured.");
+  }
+});
 
 // view engine setup
 app.engine('hbs', expresshbs({ defaultLayout: 'layout', extname: '.hbs' }));

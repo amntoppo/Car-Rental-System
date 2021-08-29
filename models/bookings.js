@@ -9,9 +9,11 @@ var schema = new Schema({
     to: {type: Date, required: true},
     pickup: {type: String, required: true},
     drop: {type: String, required: true},
-    totalprice:{type: Number, required: true}
+    totalprice:{type: Number, required: true},
+    active: {type: Boolean, default: true},
+    finished: {type: Boolean, default: false}
 }, {
     timestamps: true
 });
-
+//active status = 0, cancelled status = 1, finished status = 2
 module.exports = mongoose.model('CarBookings', schema);
