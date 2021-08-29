@@ -22,6 +22,7 @@
                     <th scope="col" class="pl-5 pr-3">Base Price</th>
                     <th scope="col" class="pl-2 pr-3">Hourly rate</th>
                      <th scope="col" class="pl-2 pr-2">Deposit</th>
+                     <th scope="col" class="pl-2 pr-2">Availablitiy</th>
                      
 
 
@@ -207,9 +208,11 @@
         <table class="table table-hover table-striped table-dark table-hover">
             
 <div class="alert alert-info">
-        
+        {{#if login}}
         <p>Kindly wait for your license to be verified</p>
-        
+        {{else}}
+        <p>Please login to book a car.</p>
+        {{/if}}
       </div>
     <div class="dropdown">
   <button class="dropbtn">Select Category</button>
@@ -227,6 +230,7 @@
                     <th scope="col" class="pl-5 pr-3">Base Price</th>
                     <th scope="col" class="pl-2 pr-3">Hourly rate</th>
                      <th scope="col" class="pl-2 pr-2">Deposit</th>
+                     <th scope="col" class="pl-2 pr-2">Availablitiy</th>
                      
 
 

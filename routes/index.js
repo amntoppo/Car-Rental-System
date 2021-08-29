@@ -55,6 +55,7 @@ router.get('/users', (req, res, next) => {
 
 router.post('/bookings/:id', (req, res, next) => {
   var id = req.params.id;
+  var fromadmin = true;
   var nobookings = true;
 Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec().then(doc => {
   if (doc.length) {
@@ -64,7 +65,7 @@ Booking.find({'userid':id}).populate('carid').populate('userid').lean(true).exec
     nobookings = true;
   }
   console.log(nobookings);
-  res.render('userbookings', {data: doc, nobookings: nobookings})
+  res.render('userbookings', {data: doc, nobookings: nobookings, fromadmin: fromadmin})
 })
 })
 

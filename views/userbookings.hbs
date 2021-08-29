@@ -2,12 +2,19 @@
 <div class="row mt-4">
     <div class="col-md-15 col-md-offset-1 mx-auto">
         {{#if nobookings}}
-        
+        {{#if fromadmin}}
+        <div class="alert alert-danger">
+            
+            <p>User has not booked a car yet.</p>
+            
+        </div>
+        {{else}}
         <div class="alert alert-danger">
             
             <p>No user has booked this car yet</p>
             
         </div>
+        {{/if}}
         {{else}}
         <center>
         <table class="table table-hover table-striped table-dark table-hover">
@@ -111,7 +118,10 @@
                     <td class="pl-2 pr-3">{{this.to}}</td>
                     <td class="pl-2 pr-2"> {{this.totalprice}}</td>
                     {{#if this.active}}
-                    <td class="pl-2 pr-2"> Active</td>
+                    <td class="pl-2 pr-2"> <form method="get" action="/bookingstatus/cancel/{{this._id}}">
+                
+                    <button type="submit" class="btn btn-danger">Cancel booking </button>
+                </form></td>
                     {{else}}
                             {{#if this.finished}}
                             <td class="pl-2 pr-2"> Finished</td>
