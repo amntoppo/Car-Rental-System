@@ -183,7 +183,7 @@ router.get('/cars', (req, res, next) => {
 router.get("/bookingdetails/:id", (req, res, next) => {
   var id = req.params.id;
   var nobookings = true;
-  Booking.find({'carid' : id}, (err, data) => {
+  Booking.find({'carid' : id, 'active': true}, (err, data) => {
     if (data.length) {
       nobookings = false;
     }
